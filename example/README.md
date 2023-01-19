@@ -21,8 +21,11 @@ which tells `clangd` about the compiling information so that it knows where to f
 At this point, nvim convers common IDE features such as:
 ## auto-compeletion
 built in definitions
+
 ![](https://github.com/keg0704/keg_c_dev_env/blob/master/imgs/auto_complete_buildin.png)
+
 self-defined functions
+
 ![](https://github.com/keg0704/keg_c_dev_env/blob/master/imgs/auto_complete_self_defined.png)
 
 ## go-to definition
