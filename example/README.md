@@ -32,7 +32,7 @@ self-defined functions
 ![](https://github.com/keg0704/keg_c_dev_env/blob/master/imgs/goto_def.gif)
 
 ## format on save
-![](https://github.com/keg0704/keg_c_dev_env/blob/master/imgs/goto_def.gif)
+![](https://github.com/keg0704/keg_c_dev_env/blob/master/imgs/format_on_save.gif)
 
 ## comment out
 ![](https://github.com/keg0704/keg_c_dev_env/blob/master/imgs/comment_out.gif)
