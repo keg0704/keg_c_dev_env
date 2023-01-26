@@ -22,4 +22,4 @@ RUN git clone https://github.com/neovim/neovim.git \
 && rm -rf /neovim
 
 RUN mkdir -p /root/.config/nvim
-COPY init.lua /root/.config/nvim
+COPY nvim /root/.config/nvim
