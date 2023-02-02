@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 RUN apt update \
-&& apt upgrade \
+&& apt upgrade -y \
 && apt install git -y \
 && apt install cmake -y \
 && apt install pkg-config -y \
