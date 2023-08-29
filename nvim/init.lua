@@ -253,7 +253,7 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'vim' },
+  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'vim' },
 
   highlight = { enable = true, additional_vim_regex_highlighting = false, },
   indent = { enable = true, disable = { 'python' } },
