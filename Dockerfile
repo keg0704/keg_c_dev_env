@@ -26,7 +26,8 @@ RUN apt update \
 && apt install clang-format -y \
 && apt install build-essential -y \
 && apt install unzip -y \
-&& apt install gettext -y
+&& apt install gettext -y \
+&& apt install gdb -y
 
 COPY --from=prerequisites /usr/local/bin/nvim /usr/local/bin/nvim
 COPY --from=prerequisites /usr/local/share/nvim /usr/local/share/nvim

@@ -15,6 +15,9 @@ require('packer').startup(function(use)
   -- Package manager
   use 'wbthomason/packer.nvim'
 
+  use 'mfussenegger/nvim-dap'
+  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
+
   use { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     requires = {
@@ -411,6 +414,46 @@ local servers = {
 
 -- Setup neovim lua configuration
 require('neodev').setup()
+
+local dap = require("dap")
+local dapui = require('dapui')
+
+dap.adapters.gdb = {
+  type = "executable",
+  command = "gdb",
+  args = { "-i", "dap" }
+}
+dap.configurations.cpp = {
+  {
+    name = "Launch",
+    type = "gdb",
+    request = "launch",
+    program = function()
+      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+    end,
+    cwd = "${workspaceFolder}",
+    stopAtBeginningOfMainSubprogram = false,
+  },
+}
+dap.configurations.c = dap.configurations.cpp
+dapui.setup()
+
+dap.listeners.after.event_initialized["dapui_config"] = function()
+  dapui.open()
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+  dapui.close()
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+  dapui.close()
+end
+
+vim.api.nvim_set_keymap("n", "<Leader>db", ":DapToggleBreakpoint<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<Leader>dc", ":DapContinue<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<Leader>dn", ":DapStepOver<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<Leader>do", ":DapStepOut<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<Leader>dt", ":DapTerminate<CR>", { noremap = true })
+
 --
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -442,13 +485,14 @@ require('fidget').setup()
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
 require("nvim-tree").setup()
--- open nvim-tree on start up
-local function open_nvim_tree()
-  -- open the tree
-  require("nvim-tree.api").tree.open()
-end
 
-vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
+-- open nvim-tree on start up
+-- local function open_nvim_tree()
+--   -- open the tree
+--   require("nvim-tree.api").tree.open()
+-- end
+
+-- vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
