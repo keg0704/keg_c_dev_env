@@ -92,6 +92,8 @@ require('packer').startup(function(use)
       'nvim-tree/nvim-web-devicons', -- optional
     },
   }
+
+  -- set up for ident-blankline
   local highlight = {
     "RainbowRed",
     "RainbowYellow",
@@ -101,6 +103,7 @@ require('packer').startup(function(use)
     "RainbowViolet",
     "RainbowCyan",
   }
+
 
   local hooks = require "ibl.hooks"
   -- create the highlight groups in the highlight setup hook, so they are reset
@@ -181,14 +184,13 @@ vim.wo.signcolumn = 'yes'
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd [[colorscheme onedark]]
+require('onedark').load()
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
 -- [[ Basic Keymaps ]]
 -- Set <space> as the leader key
--- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -225,13 +227,6 @@ require('lualine').setup {
 
 -- Enable Comment.nvim
 require('Comment').setup()
-
--- Enable `lukas-reineke/indent-blankline.nvim`
--- See `:help indent_blankline.txt`
--- require('indent_blankline').setup {
---   char = '┊',
---   show_trailing_blankline_indent = false,
--- }
 
 -- Gitsigns
 -- See `:help gitsigns.txt`
