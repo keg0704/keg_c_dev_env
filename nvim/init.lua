@@ -407,6 +407,34 @@ local servers = {
   },
 }
 
+
+-- Import lspconfig (Setup lspconfig for arm chip mannully since Mason does not support arm version clangd)
+-- local lspconfig = require('lspconfig')
+--
+-- -- Configure clangd
+-- lspconfig.clangd.setup {
+--   cmd = { "clangd" }, -- Ensure the correct path to ARM clangd if not in PATH
+--   on_attach = function(client, bufnr)
+--     -- Keybindings for LSP actions
+--     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+--     local opts = { noremap = true, silent = true }
+--
+--     buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+--     buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+--     buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+--     buf_set_keymap('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+--     buf_set_keymap('n', '<C-k>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+--     buf_set_keymap('n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', opts)
+--   end,
+--   -- Optional: additional configurations for `clangd`
+--   filetypes = { "c", "cpp", "objc", "objcpp" }, -- Supported languages
+--   root_dir = lspconfig.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
+-- }
+--
+-- lspconfig.clangd.setup {
+--   cmd = { "/usr/bin/clangd" },
+-- }
+
 -- Setup neovim lua configuration
 require('neodev').setup()
 
