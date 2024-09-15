@@ -1,7 +1,7 @@
 -- LSP settings
 local status_ok, nvim_lsp = pcall(require, "lspconfig")
 if not status_ok then
-  -- 插件未找到，不执行后续代码，避免错误
+  -- Plugin not found, return early to avoid errors
   return
 end
 
@@ -9,13 +9,13 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
--- LSP servers configuration
-local servers = {}
+-- LSP servers configuration, add 'lua_ls' to auto-install
+local servers = { "lua_ls" }
 
 -- Mason setup
 require('mason').setup()
 require('mason-lspconfig').setup {
-  ensure_installed = servers,
+  ensure_installed = servers, -- Ensure the Lua language server is installed
 }
 
 -- Callback function when LSP server attaches to buffer
@@ -61,7 +61,8 @@ nvim_lsp.lua_ls.setup {
 
 -- For ARM version of clangd, specify the path if needed
 nvim_lsp.clangd.setup {
-  cmd = { "/usr/bin/clangd" },
+  cmd = { "/usr/bin/clangd" }, -- Adjust path if necessary
   on_attach = on_attach,
   capabilities = capabilities,
 }
+

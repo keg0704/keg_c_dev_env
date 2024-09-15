@@ -15,6 +15,5 @@ vim.o.completeopt = 'menuone,noselect'
 -- Set colorscheme
 local status_ok, onedark = pcall(require, "onedark")
 if status_ok then
-  -- 插件加载成功，继续设置
   onedark.load()
 end

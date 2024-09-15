@@ -95,6 +95,7 @@ if not is_bootstrap then
   require('nvim-cmp-config')   -- nvim-cmp configuration
   require('autocmds')          -- Autocommands
   require('ibl-config')        -- Indentation
+  require('nvim-tree-config')  -- File Browser
 
   -- Highlight on yank
   local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
