@@ -39,6 +39,21 @@ dap.listeners.before.event_exited['dapui_config'] = function()
   dapui.close()
 end
 
+-- Function to close nvim-tree when debugging starts, and reopen when debugging being terminated or exited
+dap.listeners.after.event_initialized["close_nvim_tree"] = function()
+  vim.cmd("NvimTreeClose")
+end
+dap.listeners.before.event_terminated["reopen_nvim_tree"] = function()
+  vim.cmd("NvimTreeOpen")
+  -- Switch focus back to the file buffer
+  vim.cmd("wincmd p")
+end
+dap.listeners.before.event_exited["reopen_nvim_tree"] = function()
+  vim.cmd("NvimTreeOpen")
+  -- Switch focus back to the file buffer
+  vim.cmd("wincmd p")
+end
+
 -- Key mappings for DAP
 vim.api.nvim_set_keymap('n', '<Leader>db', ':DapToggleBreakpoint<CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>dc', ':DapContinue<CR>', { noremap = true })

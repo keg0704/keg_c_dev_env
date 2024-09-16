@@ -71,6 +71,16 @@ require('packer').startup(function(use)
   -- null-ls: Additional LSP functionality
   use 'jose-elias-alvarez/null-ls.nvim'
 
+  -- ZenMode
+  use {
+    "folke/zen-mode.nvim",
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    }
+  }
+
   -- Additional plugins...
 
   -- Sync plugins if it's the first time Packer is loaded
