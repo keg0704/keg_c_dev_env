@@ -1,5 +1,5 @@
 #FROM ubuntu:latest AS prerequisites
-FROM arm64v8/ubuntu:latest AS prerequisites
+FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04 AS prerequisites
 
 RUN apt update
 RUN apt upgrade -y
@@ -17,8 +17,7 @@ RUN git clone https://github.com/neovim/neovim.git \
 && rm -rf /neovim
 
 # FROM yourDesiredBaseImage
-#FROM ubuntu:latest 
-FROM arm64v8/ubuntu:latest 
+FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04 
 
 RUN apt update \
 && apt upgrade -y \
