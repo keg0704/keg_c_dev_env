@@ -39,13 +39,16 @@ local on_attach = function(client, bufnr)
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 end
 
--- Setup LSP servers
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
-end
+local mason_lspconfig = require 'mason-lspconfig'
+mason_lspconfig.setup_handlers {
+	function(server_name)
+		require('lspconfig')[server_name].setup {
+			capabilities = capabilities,
+			on_attach = on_attach,
+			settings = servers[server_name],
+		}
+	end,
+}
 
 -- Special configuration for lua_ls
 nvim_lsp.lua_ls.setup {
