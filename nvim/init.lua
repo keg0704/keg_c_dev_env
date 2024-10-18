@@ -2,6 +2,7 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+
 -- Install packer if not installed
 local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 local is_bootstrap = false
@@ -27,13 +28,15 @@ require("packer").startup(function(use)
 	use("neovim/nvim-lspconfig") -- LSP configurations
 	use("williamboman/mason.nvim") -- LSP manager
 	use("williamboman/mason-lspconfig.nvim")
-	use("hrsh7th/nvim-cmp") -- Autocompletion plugin
+	use("hrsh7th/nvim-cmp")  -- Autocompletion plugin
 	use("hrsh7th/cmp-nvim-lsp") -- LSP source for nvim-cmp
-	use("L3MON4D3/LuaSnip") -- Snippet engine
+	use("L3MON4D3/LuaSnip")  -- Snippet engine
 	use("saadparwaiz1/cmp_luasnip") -- Snippet completion source for nvim-cmp
 
 	-- Debugging
 	use("mfussenegger/nvim-dap") -- DAP client
+	use("mfussenegger/nvim-dap-python") -- DAP client
+
 	use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } })
 
 	-- Treesitter
@@ -58,13 +61,13 @@ require("packer").startup(function(use)
 	use("lewis6991/gitsigns.nvim")
 
 	-- UI enhancements
-	use("navarasu/onedark.nvim") -- Theme
-	use("nvim-lualine/lualine.nvim") -- Statusline
+	use("navarasu/onedark.nvim")        -- Theme
+	use("nvim-lualine/lualine.nvim")    -- Statusline
 	use("lukas-reineke/indent-blankline.nvim") -- Indentation guides
 
 	-- Utility plugins
 	use("numToStr/Comment.nvim") -- Commenting utility
-	use("tpope/vim-sleuth") -- Automatically detect indentation
+	use("tpope/vim-sleuth")     -- Automatically detect indentation
 	use("nvim-tree/nvim-tree.lua") -- File explorer
 	use("nvim-tree/nvim-web-devicons") -- File icons
 
@@ -92,8 +95,8 @@ end)
 -- Only load other configurations after plugin sync completes
 if not is_bootstrap then
 	-- Load configuration files
-	require("settings") -- Basic Vim settings
-	require("keymaps") -- Key mappings
+	require("settings")   -- Basic Vim settings
+	require("keymaps")    -- Key mappings
 	require("lsp-config") -- LSP configuration
 	require("dap-config") -- DAP configuration
 	require("treesitter-config") -- Treesitter configuration
@@ -103,9 +106,10 @@ if not is_bootstrap then
 	require("comment-config") -- Comment.nvim configuration
 	require("null-ls-config") -- null-ls configuration
 	require("nvim-cmp-config") -- nvim-cmp configuration
-	require("autocmds") -- Autocommands
+	require("autocmds")   -- Autocommands
 	require("ibl-config") -- Indentation
 	require("nvim-tree-config") -- File Browser
+	require("zen-mode-config") -- ZenMode
 
 	-- Highlight on yank
 	local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
@@ -125,3 +129,21 @@ vim.cmd([[
     autocmd BufWritePost init.lua source <afile> | PackerCompile
   augroup end
 ]])
+
+
+-- Set Enter as fold/unfold when it's not on a quickfix buffer (e.g. lsp gd with multiple file to select)
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldlevel = 1
+vim.api.nvim_set_keymap('n', '<CR>', [[:lua HandleEnter()<CR>]], { noremap = true, silent = true })
+
+function HandleEnter()
+	local buftype = vim.bo.buftype
+	local filetype = vim.bo.filetype
+
+	if buftype == 'prompt' or buftype == 'nofile' or buftype == 'quickfix' or filetype == 'NvimTree' then
+		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<CR>', true, false, true), 'n', false)
+	end
+	-- otherwise remap enter as fold toggle
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('za', true, false, true), 'n', false)
+end

@@ -1,6 +1,7 @@
 -- Treesitter configuration
 require("nvim-treesitter.configs").setup({
 	ensure_installed = { "c", "cpp", "lua", "python", "rust", "typescript", "vim" },
+	fold_enable = true,
 	highlight = { enable = true, additional_vim_regex_highlighting = false },
 	indent = { enable = true, disable = { "python" } },
 	incremental_selection = {

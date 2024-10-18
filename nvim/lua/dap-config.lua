@@ -25,6 +25,30 @@ dap.configurations.cpp = {
 
 dap.configurations.c = dap.configurations.cpp
 
+require('dap-python').setup('python') -- use current python env
+
+dap.configurations.python = {
+	{
+		type = 'python',
+		request = 'launch',
+		name = 'Launch file',
+		program = '${file}', -- dap work on current file
+		pythonPath = function()
+			-- check if is under virualenv
+			local venv_path = os.getenv('VIRTUAL_ENV')
+			if venv_path then
+				return venv_path .. '/bin/python'
+			end
+			-- if not try to activate .venv under cwd
+			if vim.fn.isdirectory(vim.fn.getcwd() .. '/.venv') == 1 then
+				return vim.fn.getcwd() .. '/.venv/bin/python'
+			end
+			-- otherwise use system default python
+			return '/usr/bin/python'
+		end,
+	},
+}
+
 -- DAP UI setup
 dapui.setup()
 
@@ -61,3 +85,6 @@ vim.api.nvim_set_keymap("n", "<Leader>dn", ":DapStepOver<CR>", { noremap = true 
 vim.api.nvim_set_keymap("n", "<Leader>di", ":DapStepInto<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<Leader>do", ":DapStepOut<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<Leader>dt", ":DapTerminate<CR>", { noremap = true })
+
+vim.fn.sign_define('DapBreakpoint', { text = '🔴', texthl = '', linehl = '', numhl = '' })
+vim.fn.sign_define('DapStopped', { text = '🟢', texthl = '', linehl = '', numhl = '' })
