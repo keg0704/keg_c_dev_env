@@ -1,2 +1,2 @@
 -- Comment.nvim configuration
-require('Comment').setup()
+require("Comment").setup()
